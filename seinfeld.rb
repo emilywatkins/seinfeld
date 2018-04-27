@@ -36,7 +36,8 @@ all_dialogue.each do |word|
   counts[word] += 1
 end
 
-ordered_five = counts.sort_by { |k, v| v }.reverse[0..24]
+ordered_five = counts.sort_by { |k, v| v }.reverse[0..4]
+# ordered_five = counts.select { |k, v| v>10 }
 top_five_words = ordered_five.map { |k, v| k }
 top_five_words.each_with_index do |word, i|
   puts (i+1).to_s + ". " + word
