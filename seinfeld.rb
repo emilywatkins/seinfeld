@@ -17,30 +17,49 @@ database_dialogue = DB.exec("
 ;")
 
 results = database_dialogue.values
-all_dialogue = []
-words_arr = []
 
-results.each do |result| # result is an array containing a string
-  words = result.to_s.split(' ')
-  words.each do |word|
-    all_dialogue.push(word)
+def character_dialogue_arr(database_values)
+  all_dialogue = []
+  database_values.each do |value| # result is an array containing a string
+    words = value.to_s.split(' ')
+    words.each do |word|
+      all_dialogue.push(word)
+    end
+  end
+  return all_dialogue
+end
+
+def remove_non_letters(arr)
+  arr.each do |word|
+    word.gsub!(/[^0-9a-z ]/i, '')
   end
 end
 
-all_dialogue.each do |word| # removes non-letter characters
-  word.gsub!(/[^0-9a-z ]/i, '')
+def count_words(arr)
+  counts = Hash.new 0
+  arr.each do |word|
+    counts[word] += 1
+  end
+  return counts
 end
 
-counts = Hash.new 0
-all_dialogue.each do |word|
-  counts[word] += 1
+def sorted_count(hash)
+  sorted = hash.sort_by { |k, v| v }.reverse[0..4]
 end
 
-ordered_five = counts.sort_by { |k, v| v }.reverse[0..4]
-# ordered_five = counts.select { |k, v| v>10 }
-top_five_words = ordered_five.map { |k, v| k }
-top_five_words.each_with_index do |word, i|
-  puts (i+1).to_s + ". " + word
+def top_five(arr)
+  top_five_words = arr.map { |k, v| k }
 end
-# puts "all dialogue array: ", all_dialogue
-# puts "counted words: ", top_five_words
+
+def print_list(arr)
+  arr.each_with_index do |word, i|
+    puts (i+1).to_s + ". " + word
+  end
+end
+
+dialogue_array = character_dialogue_arr(results)
+cleaned_dialogue_array = remove_non_letters(dialogue_array)
+counts_hash = count_words(cleaned_dialogue_array)
+sorted_counts = sorted_count(counts_hash)
+top_five = top_five(sorted_counts)
+print_list(top_five)
