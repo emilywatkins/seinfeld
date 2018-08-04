@@ -30,4 +30,11 @@ RSpec.describe TopWords do
       expect(top_words.sorted_count(hash)).to eq [['b', 5], ['a', 2], ['c', 1]]
     end
   end
+
+  describe '#top_five' do
+    it 'returns the first 5 keys from a sorted array of key value pairs' do
+      sorted_array = [['b', 15], ['a', 12], ['c', 11], ['j', 5], ['k', 2], ['l', 1]]
+      expect(top_words.top_five(sorted_array)).to eq ['b', 'a', 'c', 'j', 'k']
+    end
+  end
 end
