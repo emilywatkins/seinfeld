@@ -1,16 +1,12 @@
 require 'spec_helper'
 
-#need to clone test database and connect to test. delete all between?
-
-# describe('.character_dialogue_arr') do
-#   it 'creates an array of words from database dialogue values'
-#     database_values = ['this is great.', 'bingo.']
-#     expect character_dialogue_arr(database_values).to eq ['this', 'is', 'great.', 'bingo.']
-# end
-# 
-# character_dialogue_arr(database_values)
-# remove_non_letters(arr)
-# count_words(arr)
-# sorted_count(hash)
-# top_five(arr)
-# print_list(arr)
+RSpec.describe TopWords do
+  top_words = TopWords.new
+  
+  describe '#character_dialogue_arr' do
+    it 'takes string and returns array of words' do
+      dialogue = ['one two']
+      expect(top_words.character_dialogue_arr(dialogue)).to eq ['one', 'two']
+    end
+  end
+end
