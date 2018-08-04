@@ -23,4 +23,11 @@ RSpec.describe TopWords do
       expect(top_words.count_words(dialogue)).to eq({'one' => 1})
     end
   end
+
+  describe '#sorted_count' do
+    it 'returns array key value pairs sorted by hash value' do
+      hash = {'a' => 2, 'b' => 5, 'c' => 1}
+      expect(top_words.sorted_count(hash)).to eq [['b', 5], ['a', 2], ['c', 1]]
+    end
+  end
 end
