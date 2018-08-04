@@ -16,4 +16,11 @@ RSpec.describe TopWords do
       expect(top_words.remove_non_letters(dialogue)).to eq ['test']
     end
   end
+
+  describe '#count_words' do
+    it 'returns hash where key is a word and value is number of occurrences' do
+      dialogue = ['one']
+      expect(top_words.count_words(dialogue)).to eq({'one' => 1})
+    end
+  end
 end
