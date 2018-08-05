@@ -1,11 +1,12 @@
 require 'pg'
 require 'csv'
 require 'set'
+require 'stopwords'
 
 class TopWords
   def character_dialogue_arr(database_values)
     all_dialogue = []
-    database_values.each do |value| # result is an array containing strings of dialogue
+    database_values.each do |value|
       words = value.to_s.split(' ')
       words.each do |word|
         all_dialogue.push(word)
@@ -18,6 +19,14 @@ class TopWords
     arr.each do |word|
       word.gsub!(/[^0-9a-z ]/i, '')
     end
+  end
+
+  def remove_stop_words(arr)
+    filter = Stopwords::Snowball::Filter.new "en"
+    arr.map do |word|
+      array = filter.filter word.split
+      array.first
+    end.compact
   end
 
   def count_words(arr)
@@ -33,22 +42,23 @@ class TopWords
   end
 
   def top_five(arr)
-    arr.map { |k, v| k }[0..4]
+    arr.map { |k, v| k }[0..9]
   end
 
   def print_list(arr)
-    arr.each_with_index do |word, i|
-      puts (i+1).to_s + ". " + word
+    arr.each_with_index do |word, index|
+      puts (index+1).to_s + ". " + word
     end
   end
 
   def run(results)
     dialogue_array = character_dialogue_arr(results)
     cleaned_dialogue_array = remove_non_letters(dialogue_array)
-    counts_hash = count_words(cleaned_dialogue_array)
+    filtered = remove_stop_words(cleaned_dialogue_array)
+    counts_hash = count_words(filtered)
     sorted_counts = sorted_count(counts_hash)
-    top_five = top_five(sorted_counts)
-    print_list(top_five)
+    top_words = top_five(sorted_counts)
+    print_list(top_words)
   end
 end
 
@@ -71,7 +81,7 @@ end
 
 def main
   puts 'choose JERRY, ELAINE, GEORGE, or KRAMER'
-  input = gets.chomp
+  input = gets.chomp.upcase
   puts "you selected #{input}"
 
   results = DialogueQuery.for_character(input)

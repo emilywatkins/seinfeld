@@ -21,6 +21,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.7.0)
     rspec-support (3.7.1)
+    stopwords-filter (0.4.1)
 
 PLATFORMS
   ruby
@@ -29,6 +30,7 @@ DEPENDENCIES
   pg
   pry
   rspec
+  stopwords-filter
 
 BUNDLED WITH
    1.16.1

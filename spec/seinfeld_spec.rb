@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe TopWords do
-  top_words = TopWords.new
+  let(:top_words) { TopWords.new }
 
   describe '#character_dialogue_arr' do
     it 'takes string and returns array of words' do
